@@ -10,7 +10,7 @@ import { lastValueFrom } from 'rxjs';
 })
 export class App implements OnInit {
   private http = inject(HttpClient);
-  protected readonly title = signal('Dating app');
+  protected readonly title = signal('D app');
   protected members = signal<any>([]);
 
   async ngOnInit() {
