@@ -1,4 +1,4 @@
-import { HttpInterceptorFn, HttpEvent, HttpResponse } from '@angular/common/http';
+import { HttpInterceptorFn, HttpEvent, HttpResponse, HttpParams } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { BusyService } from '../services/busy-service';
 import { delay, finalize, of, tap } from 'rxjs';
@@ -8,8 +8,15 @@ const cache = new Map<string, HttpEvent<unknown>>();
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const busyService = inject(BusyService);
 
+  const generateCacheKey = (url: string, params: HttpParams): string => {
+    const paramString = params.keys().map(key => `${key}=${params.get(key)}`).join('&');
+    return paramString ? `${url}?${paramString}` : url;
+  }
+
+  const cacheKey = generateCacheKey(req.url, req.params);
+
   if (req.method === 'GET') {
-    const cacheRespone = cache.get(req.url);
+    const cacheRespone = cache.get(cacheKey);
     if (cacheRespone) {
       return of(cacheRespone);
     }
@@ -23,7 +30,7 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
       console.log(response);
       if (response instanceof HttpResponse && response.body != null && response.body !== '') {
         console.log("Cached the response.")
-        cache.set(req.url, response);
+        cache.set(cacheKey, response);
       } else {
         console.log("caching skipped because of empty body")
       }
