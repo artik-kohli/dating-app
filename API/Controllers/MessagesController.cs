@@ -31,7 +31,7 @@ public class MessagesController(
 
         messageRepository.AddMessage(message);
 
-        if (await messageRepository.SaveAllAsyc()) return message.ToDto();
+        if (await messageRepository.SaveAllAsync()) return message.ToDto();
 
         return BadRequest("Failed to send message");
     }
@@ -72,7 +72,7 @@ public class MessagesController(
             messageRepository.DeleteMessage(message);
         }
 
-        if (await messageRepository.SaveAllAsyc()) return Ok();
+        if (await messageRepository.SaveAllAsync()) return Ok();
 
         return BadRequest("Problem deleting the message");
     }
