@@ -39,6 +39,10 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
     }
   }
 
+  if (req.method.includes('POST') && req.url.includes('/logout')) {
+    cache.clear();
+  }
+
   busyService.busy();
 
   return next(req).pipe(
