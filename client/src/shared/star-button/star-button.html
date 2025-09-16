@@ -1,4 +1,4 @@
-<button (click)="onClick($event)" [disabled]="isSelected()" class="z-50 cursor-pointer">
+<button (click)="onClick($event)" [disabled]="isDisabled()" class="z-50 cursor-pointer">
     <svg xmlns="http://www.w3.org/2000/svg" [attr.fill]="isSelected() ? 'currentColor' : 'none'" viewBox="0 0 24 24"
         stroke-width="1.5" stroke="currentColor" [class.text-yellow-200]="isSelected()"
         [class.stroke-white]="isSelected()" class="size-8 stroke-2 ">
